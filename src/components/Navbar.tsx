@@ -1,8 +1,16 @@
 import Image from "next/image";
-import React from "react";
-import NavbarItem from "./NavbarItem";
-import { BsChevronDown } from "react-icons/bs";
+import React, { useCallback, useState } from "react";
+import NavbarItem from "./navbar/NavbarItem";
+import { BsBell, BsChevronDown, BsSearch } from "react-icons/bs";
+import MobileMenu from "./navbar/MobileMenu";
+import AccountMenu from "./navbar/AccountMenu";
 function Navbar() {
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  const toggleMobileMenu = useCallback(() => {
+    setShowMobileMenu((prev) => !prev);
+  }, []);
+
   return (
     <div className="w-full fixed z-40">
       <div
@@ -34,10 +42,33 @@ function Navbar() {
           <NavbarItem label="My List" />
           <NavbarItem label="Browse by Languages" />
         </div>
-        <div className="lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative">
+        <div
+          onClick={toggleMobileMenu}
+          className="lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative"
+        >
           <p className="text-white text-sm">Browse</p>
           <BsChevronDown className="text-white transition" />
-          <MobileMenu />
+          <MobileMenu visible={showMobileMenu} />
+        </div>
+        <div className="flex flex-row ml-auto gap-7 items-center">
+          <div className="text-gray-200 hover:text-gray-300 cursor-pointer transition">
+            <BsSearch />
+          </div>
+          <div className="text-gray-200 hover:text-gray-300 cursor-pointer transition">
+            <BsBell />
+          </div>
+          <div className="flex flex-row relative items-center gap-2 cursor-pointer">
+            <div className="w-6 h-6 lg:w-10 lg:h-10 rounded-md overflow-hidden">
+              <Image
+                src="/images/default-blue.png"
+                alt="avatar"
+                width={200}
+                height={200}
+              />
+            </div>
+            <BsChevronDown className="text-white transition" />
+              <AccountMenu />
+          </div>
         </div>
       </div>
     </div>
